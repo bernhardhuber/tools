@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.huberb.services</groupId>
+        <artifactId>tools-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>dbunit</artifactId>
+    <packaging>jar</packaging>
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <picocli.version>4.6.1</picocli.version>
+       
+        <dbunit.driver>org.h2.Driver</dbunit.driver>
+        <dbunit.url>jdbc:h2:tcp://localhost/flyway</dbunit.url>
+        <dbunit.user>flyway</dbunit.user>
+        <dbunit.password>flyway</dbunit.password>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.dbunit</groupId>
+            <artifactId>dbunit</artifactId>
+            <version>2.7.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.200</version>
+        </dependency>
+    <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.30</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.30</version>
+        </dependency>        
+        <dependency>
+            <groupId>info.picocli</groupId>
+            <artifactId>picocli</artifactId>
+            <version>${picocli.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.6.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>5.6.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.6.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>3.10.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>3.10.0</version>
+            <scope>test</scope>
+        </dependency>        
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <!-- annotationProcessorPaths requires maven-compiler-plugin version 3.5 or higher -->
+                <version>3.8.1</version>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>info.picocli</groupId>
+                            <artifactId>picocli-codegen</artifactId>
+                            <version>${picocli.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                    <compilerArgs>
+                        <arg>-Aproject=${project.groupId}/${project.artifactId}</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+            </plugin>            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.9.1</version>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+                <executions>
+                    <execution>
+                        <id>mainH2</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
+                            <shadedClassifierName>mainDbUnit</shadedClassifierName>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>org.huberb.services.dbunit.picocli.MainDbUnit</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>                    
+                    
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <skipAssembly>true</skipAssembly>
+                    <descriptors>
+                        <descriptor>src/assembly/dist1.xml</descriptor>
+                    </descriptors>
+                </configuration>
+            </plugin>  
+ 
+        </plugins>        
+    </build>
+    <profiles>
+        <profile>
+            <id>dbinsertupdate</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>3.0.0</version>
+
+                        <configuration>
+                            <target>
+                                <!--
+                                <property name="compile_classpath" refid="maven.compile.classpath"/>
+                                <property name="runtime_classpath" refid="maven.runtime.classpath"/>
+                                <property name="test_classpath" refid="maven.test.classpath"/>
+                                <property name="plugin_classpath" refid="maven.plugin.classpath"/>
+
+                                <echo message="compile classpath: ${compile_classpath}"/>
+                                <echo message="runtime classpath: ${runtime_classpath}"/>
+                                <echo message="test classpath:    ${test_classpath}"/>
+                                <echo message="plugin classpath:  ${plugin_classpath}"/>
+                                -->
+                                <taskdef name="dbunit" classname="org.dbunit.ant.DbUnitTask" classpathref="maven.compile.classpath"/>
+
+                                <dbunit driver="${dbunit.driver}"
+                                        url="${dbunit.url}"
+                                        userid="${dbunit.user}"
+                                        password="${dbunit.password}"
+                                >
+                                    <dbconfig>
+                                        <property name="datatypeFactory" value="org.dbunit.ext.h2.H2DataTypeFactory"/>
+                                        <property name="qualifiedTableNames" value="false"/>
+                                    </dbconfig>
+                                    <operation type="INSERT" src="${basedir}/src/main/resources/insertEVENT_ENTITY.xml" format="flat"/>
+                                    <operation type="UPDATE" src="${basedir}/src/main/resources/updateEVENT_ENTITY.xml" format="flat"/>
+                                    <operation type="INSERT" src="${basedir}/src/main/resources/insertBUG_ENTITY.xml" format="flat"/>
+                                </dbunit>
+                            </target>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>dbexport</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>3.0.0</version>
+
+                        <configuration>
+                            <target>
+                                <!--
+                                <property name="compile_classpath" refid="maven.compile.classpath"/>
+                                <property name="runtime_classpath" refid="maven.runtime.classpath"/>
+                                <property name="test_classpath" refid="maven.test.classpath"/>
+                                <property name="plugin_classpath" refid="maven.plugin.classpath"/>
+
+                                <echo message="compile classpath: ${compile_classpath}"/>
+                                <echo message="runtime classpath: ${runtime_classpath}"/>
+                                <echo message="test classpath:    ${test_classpath}"/>
+                                <echo message="plugin classpath:  ${plugin_classpath}"/>
+                                -->
+                                <taskdef name="dbunit" classname="org.dbunit.ant.DbUnitTask" classpathref="maven.compile.classpath"/>
+                                <typedef resource="org/dbunit/ant/antlib.xml" classpathref="maven.compile.classpath"/>
+                                 
+                                <dbunit driver="${dbunit.driver}"
+                                        url="${dbunit.url}"
+                                        userid="${dbunit.user}"
+                                        password="${dbunit.password}"
+                                >
+                                    <dbconfig >
+                                        <property name="datatypeFactory" value="org.dbunit.ext.h2.H2DataTypeFactory"/>
+                                        <property name="qualifiedTableNames" value="true"/>
+                                    </dbconfig>
+                                    <export dest="alltables.ordered.flat.xml"
+                                            format="flat"
+                                            ordered="true">
+                                    </export>
+                                    <export dest="alltables.flat.xml"
+                                            format="flat"
+                                            ordered="false">
+                                        <table name="EVENT_ENTITY "/>
+                                        <table name="BUG_ENTITY"/>
+                                        <table name="BUG_CONFIG_ENTITY"/>
+                                    </export>
+                                    <export dest="alltables.csv"
+                                            format="csv"
+                                            ordered="false">
+                                        <table name="EVENT_ENTITY "/>
+                                        <table name="BUG_ENTITY"/>
+                                        <table name="BUG_CONFIG_ENTITY"/>
+                                    </export>
+                                    <export dest="alltables.xls"
+                                            format="xls"
+                                            ordered="false">
+                                        <table name="EVENT_ENTITY "/>
+                                        <table name="BUG_ENTITY"/>
+                                        <table name="BUG_CONFIG_ENTITY"/>
+                                    </export>
+                                    <export dest="partial.flat.xml">
+                                        <query name="EVENT_ENTITY_QUERY" sql="SELECT * FROM EVENT_ENTITY WHERE 1=1"/>
+                                    </export>
+                                </dbunit>                            
+                            
+                            </target>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

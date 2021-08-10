@@ -1,0 +1,215 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+Copyright 2021 pi.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:of="http://omnifaces.org/functions"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <f:view id="viewId" >
+
+        <h:head id="headId">
+            <title>App</title>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+
+            <ui:remove>
+                <!-- Latest compiled and minified CSS -->
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+                </link>
+
+                <!-- Optional theme -->
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+                </link>
+
+                <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+                <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+                <!-- Include all compiled plugins (below), or include individual files as needed -->
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+            </ui:remove>
+
+            <h:outputStylesheet library="cdn" name="bootstrap-3.4.1.css" />
+            <h:outputStylesheet library="cdn" name="bootstrapTheme-3.4.1.css" />
+            <h:outputScript library="cdn" name="jquery-1.12.4.js" />
+            <h:outputScript library="cdn" name="bootstrap-3.4.1.js" />
+
+            <h:outputStylesheet name="css/omnifaces_highlight.css"/>
+        </h:head>
+
+        <h:body id="bodyId">
+            <o:highlight id="oHighlightId"/>
+
+            <ui:insert id="uiInsertTop" name="top">
+                <o:form id="navbarFormId">
+                    <nav id="navbarId" class="navbar navbar-default">
+                        <div class="container-fluid">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <div class="navbar-header">
+                                <button jsf:id="navbarHeaderToggleButtonId" type="button"
+                                        class="navbar-toggle collapsed"
+                                        data-toggle="collapse"
+                                        data-target="#bs-example-navbar-collapse-1"
+                                        aria-expanded="false">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <a jsf:id="navbarHeaderAppBrandId" class="navbar-brand" href="#">App Brand</a>
+                            </div>
+
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                <ul class="nav navbar-nav">
+
+                                    <li class="active">
+                                        <h:link id="navBarIndexLinkId" outcome="/index.xhtml">Index <span class="sr-only">(current)</span></h:link>
+                                    </li>
+                                    <ui:remove>
+                                        ========================================================================================================
+                                        <li class="dropdown">
+                                            <a href="#"
+                                               class="dropdown-toggle"
+                                               data-toggle="dropdown"
+                                               role="button"
+                                               aria-haspopup="true"
+                                               aria-expanded="false">Internals<span class="caret"></span></a>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <h:link id="navBarJsfInternalLinkId" outcome="/faces/jsfInternals.xhtml">JsfInternals</h:link>
+                                                </li>
+                                                <li>
+                                                    <h:link id="navBarFacesConfigLinkId" outcome="/faces/facesConfig.xhtml">FacesConfig</h:link>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ui:remove>
+                                    <ui:remove>
+                                        ========================================================================================================
+                                        <li class="dropdown">
+                                            <a href="#"
+                                               class="dropdown-toggle"
+                                               data-toggle="dropdown"
+                                               role="button"
+                                               aria-haspopup="true"
+                                               aria-expanded="false">SampleForms<span class="caret"></span></a>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <h:link id="navBarSampleFeedbackFormLinkId" outcome="/sampleForms/sampleFeedbackForm.xhtml">Sample FeebackForm</h:link>
+                                                </li>
+                                                <li>
+                                                    <h:link id="navBarSampleStudentRegistrationFormLinkId" outcome="/sampleForms/sampleStudentRegistrationForm.xhtml">Sample StudentRegistrationForm</h:link>
+                                                </li>
+                                                <li role="separator" class="divider"></li>
+                                                <li>
+                                                    <h:link id="navBarSampleAllInputFormLinkId" outcome="/sampleForms/sampleAllInputForm.xhtml">Sample AllInputForm</h:link>
+                                                </li>
+                                                <li>
+                                                    <h:link id="navBarSampleSampleFormLinkId" outcome="/sampleForms/sampleForm.xhtml">SampleForm</h:link>
+                                                </li>
+                                                <li>
+                                                    <h:link id="navBarSampleSelectionFormLinkId" outcome="/sampleForms/sampleSelectionForm.xhtml">Sample SelectionForm</h:link>
+                                                </li>
+                                                <ui:remove>
+                                                    <li role="separator" class="divider"></li>
+                                                    <li><a href="#">Separated link</a></li>
+                                                    <li role="separator" class="divider"></li>
+                                                    <li><a href="#">One more separated link</a></li>
+                                                </ui:remove>
+                                            </ul>
+                                        </li>
+                                    </ui:remove>
+
+                                    <ui:remove>
+                                        ========================================================================================================
+                                        <li class="dropdown">
+                                            <a jsf:id="navBarDropDownAppFormsAId"
+                                               href="#"
+                                               class="dropdown-toggle"
+                                               data-toggle="dropdown"
+                                               role="button"
+                                               aria-haspopup="true"
+                                               aria-expanded="false">AppForms<span class="caret"></span></a>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <h:link id="navBarDropDownAppFormsBugsLinkId" outcome="/bugs/bug.xhtml">Bugs</h:link>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ui:remove>
+                                </ul>
+                                <ui:remove>
+                                    <form id="navbarFormSearchId" class="navbar-form navbar-left">
+                                        <div class="form-group">
+                                            <input id="navbarInputSearchId" type="text" class="form-control" placeholder="Search"/>
+                                        </div>
+                                        <button id="navbarButtonSearchId" type="submit" class="btn btn-default">Submit</button>
+                                    </form>
+                                </ui:remove>
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li>
+                                        <p class="navbar-text bold">#{request.userPrincipal.name}
+                                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                        </p>
+                                    </li>
+                                    <ui:remove>
+                                        <li><a href="#">Link</a></li>
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="#">Action</a></li>
+                                                <li><a href="#">Another action</a></li>
+                                                <li><a href="#">Something else here</a></li>
+                                                <li role="separator" class="divider"></li>
+                                                <li><a href="#">Separated link</a></li>
+                                            </ul>
+                                        </li>
+                                    </ui:remove>
+                                </ul>
+                            </div><!-- /.navbar-collapse -->
+                        </div><!-- /.container-fluid -->
+                    </nav>
+                </o:form>
+                <o:form id="containerMessagesFromId">
+                    <div jsf:id="containerMessages" class="container-fluid">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Messages</div>
+                            <div class="panel-body">
+                                <div id="jsfMessagesId">
+                                    <o:messages id="oMessagesId"
+                                                class="list-unstyled"
+                                                errorClass="text-warning"
+                                                fatalClass="text-danger"
+                                                infoClass="text-info"
+                                                title="Messages"
+                                                />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </o:form>
+            </ui:insert>
+
+            <ui:insert id="uiInsertContent" name="content">Content</ui:insert>
+        </h:body>
+    </f:view>
+</html>
