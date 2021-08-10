@@ -8,6 +8,7 @@
     <modules>
         <module>wildfly</module>
         <module>activemq</module>
+        <module>activemq-examples</module>
         <module>h2</module>
         <module>wiremock</module>
         <module>flyway</module>
