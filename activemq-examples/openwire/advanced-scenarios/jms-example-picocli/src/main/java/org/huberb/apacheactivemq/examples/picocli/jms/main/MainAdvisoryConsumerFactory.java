@@ -40,22 +40,9 @@ public class MainAdvisoryConsumerFactory implements Callable<Integer> {
 
     private static final Logger logger = LoggerFactory.getLogger(MainAdvisoryConsumerFactory.class);
 
-    //--- activemq
-    @CommandLine.Option(names = {"--activemq-userName"}, defaultValue = "admin",
-            description = "activemq userName")
-    private String userName;
-    @CommandLine.Option(names = {"--activemq-password"}, defaultValue = "password",
-            description = "activemq password")
-    private String password;
-    @CommandLine.Option(names = {"--activemq-brokerURL"}, defaultValue = "tcp://localhost:61616",
-            paramLabel = "BROKER_URL",
-            description = "activemq brokerURL, format tcp://{host}:{port}, eg. `tcp://localost:61616' ")
-    private String brokerURL;
+    @CommandLine.Mixin
+    private ActivemqOptions activemqOptions;
 
-//    //--- jms message header
-//    @CommandLine.Option(names = {"--jms-message-property"},
-//            description = "jms message property, format {type}:key=value;... type=[boolean|byte|double|float|int|long|object|string|short]")
-//    private String jmsMessageProperty;
     //--- jms destination
     @CommandLine.Option(names = {"--jms-destination-advisory-topic"},
             paramLabel = "ADVISORY_TOPIC_NAME",
@@ -91,12 +78,14 @@ public class MainAdvisoryConsumerFactory implements Callable<Integer> {
     public Integer call() throws Exception {
         Integer rc = 0;
         final Map<String, Object> m = new HashMap<>();
-        //-- message props
-        //final Map<String, Object> jmsMessagePropertyMap = new MessagePropertyAsStringConverter().messagePropertyFromStringConverter(this.jmsMessageProperty);
-        //m.putAll(jmsMessagePropertyMap);
+        //-- activemq factory props
+        m.put("userName", this.activemqOptions.getUserName());
+        m.put("password", this.activemqOptions.getPassword());
+        m.put("brokerURL", this.activemqOptions.getBrokerURL());
+        //---
         if (this.jmsDestinationAdvisoryTopicName != null && !this.jmsDestinationAdvisoryTopicName.isBlank()) {
             final String theQueueName = this.jmsDestinationAdvisoryTopicName;
-            verboseReceivingFromAdvisoryTopic(this.brokerURL, theQueueName, this.jmsMessageSelector);
+            verboseReceivingFromAdvisoryTopic(this.activemqOptions.getBrokerURL(), theQueueName, this.jmsMessageSelector);
             //--- ActiveMQConnectionFactory
             final ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory();
             activeMQConnectionFactory.buildFromMap(m);
