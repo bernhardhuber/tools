@@ -42,13 +42,13 @@ public class CsvReadWriteOptions {
             paramLabel = "ESCAPE",
             required = false,
             description = "the character that escapes the field delimiter")
-    String escape; // (the character that escapes the field delimiter),
+    private String escape; // (the character that escapes the field delimiter),
     @CommandLine.Option(names = {"--field-delimiter"},
             defaultValue = "\"",
             paramLabel = "FIELDDELIMITER",
             required = false,
             description = "")
-    String fieldDelimiter; // (a double quote by default),
+    private String fieldDelimiter; // (a double quote by default),
     @CommandLine.Option(names = {"--field-separator"},
             defaultValue = ",",
             paramLabel = "FIELDSEPARATOR",
@@ -70,7 +70,7 @@ public class CsvReadWriteOptions {
             paramLabel = "NULL",
             required = false,
             description = "Support reading existing CSV files that contain explicit null delimiters. Note that an empty, unquoted values are also treated as null.")
-    String null_; //, Support reading existing CSV files that contain explicit null delimiters. Note that an empty, unquoted values are also treated as null.
+    private String null_; //, Support reading existing CSV files that contain explicit null delimiters. Note that an empty, unquoted values are also treated as null.
     @CommandLine.Option(names = {"--preserve-whitespace"},
             negatable = true,
             required = false,

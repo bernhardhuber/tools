@@ -29,7 +29,7 @@ public class ResultSetIterableIterators {
 
         final ResultSet resultSet;
 
-        public ResultSetIterable(ResultSet resultSet) {
+        ResultSetIterable(ResultSet resultSet) {
             this.resultSet = resultSet;
         }
 
@@ -69,7 +69,7 @@ public class ResultSetIterableIterators {
 
         private final SQLException sqlex;
 
-        public ResultSetRunTimeException(SQLException sqlex) {
+        ResultSetRunTimeException(SQLException sqlex) {
             super(sqlex);
             this.sqlex = sqlex;
         }

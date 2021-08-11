@@ -76,8 +76,22 @@ public class OutputResultSet {
         return encoded;
     }
 
+    /**
+     * Interface definition to write a result set to an print stream.
+     * <p>
+     * This interface is used by implementations writing result sets as CSV,
+     * XML, plain, etc.
+     */
     public static interface OutputBy {
 
+        /**
+         * Define method for writing a {@link ResultSet} to a
+         * {@link PrintStream}.
+         *
+         * @param rs
+         * @param out
+         * @throws Exception
+         */
         void output(ResultSet rs, PrintStream out) throws Exception;
 
     }
@@ -129,10 +143,10 @@ public class OutputResultSet {
 
         static class TabularMapArrayOfMapsConsumer implements Consumer<Map<String, String>> {
 
-            int rowCount = 0;
+            private int rowCount = 0;
             private final PrintStream out;
 
-            public TabularMapArrayOfMapsConsumer(PrintStream out) {
+            TabularMapArrayOfMapsConsumer(PrintStream out) {
                 this.out = out;
             }
 
@@ -181,23 +195,15 @@ public class OutputResultSet {
 
         static class TabularMapArrayOfArraysConsumer implements Consumer<Map<String, String>> {
 
-            int rowCount = 0;
+            private int rowCount = 0;
             private final PrintStream out;
 
-            public TabularMapArrayOfArraysConsumer(PrintStream out) {
+            TabularMapArrayOfArraysConsumer(PrintStream out) {
                 this.out = out;
             }
 
             @Override
             public void accept(Map<String, String> m) {
-                final Function<Map.Entry<String, String>, String> f = (Map.Entry<String, String> mapEntry) -> {
-                    final String keyValueAsYaml = String.format("\"%s\": \"%s\"",
-                            encodeJson(mapEntry.getKey()),
-                            encodeJson(mapEntry.getValue())
-                    );
-                    return keyValueAsYaml;
-                };
-
                 final StringBuilder sb = new StringBuilder();
                 final String joiningDelimiter = ", ";
                 if (rowCount == 0) {
@@ -248,7 +254,7 @@ public class OutputResultSet {
             int rowCount = 0;
             private final PrintStream out;
 
-            public TabularMapConsumer(PrintStream out) {
+            TabularMapConsumer(PrintStream out) {
                 this.out = out;
             }
 
@@ -292,10 +298,10 @@ public class OutputResultSet {
 
         static class TabularMapConsumer implements Consumer<Map<String, String>> {
 
-            int rowCount = 0;
+            private int rowCount = 0;
             private final PrintStream out;
 
-            public TabularMapConsumer(PrintStream out) {
+            TabularMapConsumer(PrintStream out) {
                 this.out = out;
             }
 
@@ -333,7 +339,7 @@ public class OutputResultSet {
 
             final Consumer<Map<String, String>> c;
 
-            public DefaultResulSetConsumer(Consumer<Map<String, String>> c) {
+            DefaultResulSetConsumer(Consumer<Map<String, String>> c) {
                 this.c = c;
             }
 
@@ -356,13 +362,16 @@ public class OutputResultSet {
 
         static class ResultSetProcessingRuntimeException extends RuntimeException {
 
-            public ResultSetProcessingRuntimeException(String message, Throwable cause) {
+            ResultSetProcessingRuntimeException(String message, Throwable cause) {
                 super(message, cause);
             }
 
         }
     }
 
+    /**
+     * Define supported output formats.
+     */
     public enum OutputMode {
         RAW, CSV, JSON, JSON_ARRAYS, JSON_MAPS, YAML, TABULAR;
 
@@ -376,6 +385,12 @@ public class OutputResultSet {
             return foundOutputModeOpt;
         }
 
+        /**
+         * Create an {@link OutputBy} instance for a given output format.
+         *
+         * @param theOutputFormat
+         * @return
+         */
         public static OutputBy createOutputBy(OutputMode theOutputFormat) {
             final OutputBy result;
             if (RAW == theOutputFormat) {

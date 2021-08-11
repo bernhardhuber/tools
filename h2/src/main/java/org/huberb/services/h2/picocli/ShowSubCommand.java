@@ -49,15 +49,15 @@ public class ShowSubCommand implements Callable<Integer> {
     @CommandLine.Option(names = {"--schemas"},
             required = false,
             description = "Show schemas")
-    boolean schemas;
+    private boolean schemas;
     @CommandLine.Option(names = {"--tables"},
             required = false,
             description = "Show tables")
-    boolean tables;
+    private boolean tables;
     @CommandLine.Option(names = {"--columns"},
             required = false,
             description = "Show columns")
-    boolean columns;
+    private boolean columns;
     @CommandLine.Option(names = {"--from-schema"},
             paramLabel = "SCHEMA", required = false,
             description = "Show from a schema")

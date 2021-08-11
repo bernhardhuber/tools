@@ -84,6 +84,11 @@ public class MainH2 implements Callable<Integer> {
             description = "jdbc Driver")
     private String jdbcDriver;
 
+    /**
+     * application main entry point.
+     * 
+     * @param args command line arguments
+     */
     public static void main(String[] args) {
         final int exitCode = new CommandLine(new MainH2()).execute(args);
         System.exit(exitCode);

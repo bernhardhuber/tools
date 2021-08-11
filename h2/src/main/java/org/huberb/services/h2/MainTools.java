@@ -64,6 +64,12 @@ public class MainTools implements Callable<Integer> {
 
     private static final Logger logger = LoggerFactory.getLogger(MainTools.class);
 
+    /**
+     * main entry point.
+     * 
+     * @param args
+     * @throws Exception 
+     */
     public static void main(String[] args) throws Exception {
         final MainTools mainTools = new MainTools();
         final CommandLine commandLine = new CommandLine(mainTools);
@@ -92,6 +98,12 @@ public class MainTools implements Callable<Integer> {
         this.commandLine = commandLine;
     }
 
+    /**
+     * Picocli entry point.
+     * 
+     * @return application exist status.
+     * @throws Exception 
+     */
     @Override
     public Integer call() throws Exception {
         final List<String> toolOptions = commandLine.getUnmatchedArguments();

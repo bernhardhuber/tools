@@ -106,7 +106,7 @@ public class CsvReadWriteWrappers {
         final Map<String, String> options;
         final String[] colNames;
 
-        public CsvReader(Reader reader, Map<String, String> options, String[] colNames) {
+        CsvReader(Reader reader, Map<String, String> options, String[] colNames) {
             this.reader = reader;
             this.options = options;
             this.colNames = colNames;
@@ -136,7 +136,7 @@ public class CsvReadWriteWrappers {
 
             final BiConsumer<String, String> bic;
 
-            public DefaultCsvReaderConsumer(BiConsumer<String, String> bic) {
+            DefaultCsvReaderConsumer(BiConsumer<String, String> bic) {
                 this.bic = bic;
             }
 
@@ -174,11 +174,11 @@ public class CsvReadWriteWrappers {
 
     static class CsvReaderWriteWrappersRuntimeException extends RuntimeException {
 
-        public CsvReaderWriteWrappersRuntimeException(String message, SQLException sqlException) {
+        CsvReaderWriteWrappersRuntimeException(String message, SQLException sqlException) {
             super(message, sqlException);
         }
 
-        public CsvReaderWriteWrappersRuntimeException(String message, IOException ioException) {
+        CsvReaderWriteWrappersRuntimeException(String message, IOException ioException) {
             super(message, ioException);
         }
 
