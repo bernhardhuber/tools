@@ -20,7 +20,7 @@
 *.rar
 
 # netbeans
-nb-configuration.xml
+#nb-configuration.xml
 faces-config.NavData
 
 # vim
