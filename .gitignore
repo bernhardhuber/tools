@@ -64,3 +64,17 @@ hs_err_pid*
 /wiremock/target/
 /dbunit/target/
 /flyway/target/
+/h2tools/target/
+/advanced-scenarios/jms-example-queue/target/
+/advanced-scenarios/jms-example-topic/target/
+/advanced-scenarios/jms-example-exclusive-consumer/target/
+/advanced-scenarios/jms-example-transaction/target/
+/advanced-scenarios/jms-example-durable-sub/target/
+/advanced-scenarios/jms-example-wildcard-consumer/target/
+/advanced-scenarios/jms-example-temp-destinations/target/
+/advanced-scenarios/jms-example-message-browser/target/
+/advanced-scenarios/jms-example-queue-selector/target/
+/advanced-scenarios/jms-example-composite-destinations/target/
+/advanced-scenarios/jms-example-lib/target/
+/advanced-scenarios/jms-example-picocli/target/
+/advanced-scenarios/jms-example-webjms/target/

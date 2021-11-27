@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
   Licensed to the Apache Software Foundation (ASF) under one or more
   contributor license agreements.  See the NOTICE file distributed with
@@ -15,55 +15,60 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>org.huberb.apache-activemq.examples</groupId>
-    <artifactId>apache-activemq-examples-parent</artifactId>
+    <artifactId>advanced-openwire-example</artifactId>
     <packaging>pom</packaging>
     <version>0.1-SNAPSHOT</version>
-    
+
     <modules>
-        <module>openwire/java</module>
-        <module>amqp/java</module>
-        <module>mqtt/java</module>
-        <module>stomp/java</module>
-        <module>support</module>
+        <module>jms-example-queue</module>
+        <module>jms-example-topic</module>
+        <module>jms-example-exclusive-consumer</module>
+        <module>jms-example-transaction</module>
+        <module>jms-example-durable-sub</module>
+        <module>jms-example-wildcard-consumer</module>
+        <module>jms-example-temp-destinations</module>
+        <module>jms-example-message-browser</module>
+        <module>jms-example-queue-selector</module>
+        <module>jms-example-composite-destinations</module>
+        
+        <module>jms-example-picocli</module>
+        <module>jms-example-webjms</module>
+        <module>jms-example-lib</module>
     </modules>
-    
+
+    <!--name>JMS / OpeWire Examples for ActiveMQ</name-->
+    <description>ActiveMQ OpenWire Java Examples</description>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
-    
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.huberb.apache-activemq.examples</groupId>
-                <artifactId>support</artifactId>
-                <version>0.1-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.geronimo.specs</groupId>
-                <artifactId>geronimo-jms_1.1_spec</artifactId>
-                <version>1.1</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.activemq</groupId>
-                <artifactId>activemq-client</artifactId>
-                <version>5.16.1</version>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-nop</artifactId>
-                <version>1.7.30</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-jms_1.1_spec</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-client</artifactId>
+            <version>5.16.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.30</version>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
